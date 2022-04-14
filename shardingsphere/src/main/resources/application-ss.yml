@@ -1,0 +1,42 @@
+
+spring:
+  shardingsphere:
+    datasource:
+      names: master,slave
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://127.0.0.1:3302/test?seUnicode=true&characterEncoding=utf-8
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+        connectionTimeoutMilliseconds: 3000
+        idleTimeoutMilliseconds: 60000
+        maxLifetimeMilliseconds: 1800000
+        maxPoolSize: 50
+        minPoolSize: 1
+        maintenanceIntervalMilliseconds: 30000
+      slave:
+        jdbcUrl: jdbc:mysql://127.0.0.1:3303/test?seUnicode=true&characterEncoding=utf-8
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+        connectionTimeoutMilliseconds: 3000
+        idleTimeoutMilliseconds: 60000
+        maxLifetimeMilliseconds: 1800000
+        maxPoolSize: 50
+        minPoolSize: 1
+        maintenanceIntervalMilliseconds: 30000
+
+    rules:
+      readwrite-splitting:
+        data-sources:
+          glapp:
+            write-data-source-name: master
+            read-data-source-names:
+              - slave
+            load-balancer-name: roundRobin # 负载均衡算法名称
+        load-balancers:
+          roundRobin:
+            type: ROUND_ROBIN # 一共两种一种是 RANDOM（随机），一种是 ROUND_ROBIN（轮询）
+
