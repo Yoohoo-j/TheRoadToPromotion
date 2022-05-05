@@ -21,7 +21,7 @@ public class User extends Model<User> {
     /**
      * 主键Id
      */
-    private int id;
+    private Integer id;
 
     /**
      * 名称
