@@ -1,6 +1,6 @@
 package aiden.nowcoder.community;
 
-import aiden.nowcoder.community.util.SensitiveFilter;
+import aiden.nowcoder.community.service.AlphaService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +13,19 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @program: TheRoadToPromotion
  * @description:
  * @author: Mr.Jiang
- * @create: 2022-04-27 23:08
+ * @create: 2022-05-06 13:35
  **/
 @RunWith(SpringRunner.class)
-@ActiveProfiles("private")
 @SpringBootTest
+@ActiveProfiles("private")
 @ContextConfiguration(classes = CommunityApplication.class)
-public class SensitiveTest {
+public class TransactionTest {
 
     @Autowired
-    private SensitiveFilter sensitiveFilter;
+    private AlphaService alphaService;
 
     @Test
-    public void testSensitiveFilter(){
-        String text = "这里可以赌博，可以嫖娼，可以吸毒， 哈哈哈！";
-        System.out.println(System.currentTimeMillis());
-        text = sensitiveFilter.filter(text);
-        System.out.println(System.currentTimeMillis());
-        System.out.println(text);
+    public void testTransaction(){
+        alphaService.transactionDemo();
     }
 }
