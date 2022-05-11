@@ -58,27 +58,28 @@ public class AlphaService {
 
     public List<DiscussPost> find(){return alphaDao.selectDiscussPosts(0, 10);}
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    public Object transactionDemo(){
-        User user = new User();
-        user.setUsername("alpha");
-        user.setSalt(CommunityUtil.generateUUID().substring(0,5));
-        user.setPassword(CommunityUtil.md5("123" + user.getSalt()));
-        user.setEmail("alpha@qq.com");
-        user.setHeaderUrl("http://image.nowcoder.com/head/99t.png");
-        user.setCreateTime(new Date());
-        userMapper.insertUser(user);
-
-        DiscussPost discussPost = new DiscussPost();
-        discussPost.setUserId(user.getId());
-        discussPost.setTitle("hell0");
-        discussPost.setContent("新人报道");
-        discussPost.setCreateTime(new Date());
-        discussPostMapper.insertDiscussPost(discussPost);
-
-        throw new RuntimeException("sdf");
-
-    }
+//    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+//    public Object transactionDemo(){
+//        User user = new User();
+//        user.setUsername("alpha");
+//        user.setSalt(CommunityUtil.generateUUID().substring(0,5));
+//        user.setPassword(CommunityUtil.md5("123" + user.getSalt()));
+//        user.setEmail("alpha@qq.com");
+//        user.setHeaderUrl("http://image.nowcoder.com/head/99t.png");
+//        user.setCreateTime(new Date());
+//        userMapper.insertUser(user);
+//
+//        DiscussPost discussPost = new DiscussPost();
+//        discussPost.setUserId(user.getId());
+//        discussPost.setTitle("hell0");
+//        discussPost.setContent("新人报道");
+//        discussPost.setCreateTime(new Date());
+//        discussPostMapper.insertDiscussPost(discussPost);
+//
+////        throw new RuntimeException("sdf");
+//        return "123";
+//
+//    }
 
     public Object transactionDemo2(){
         transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);

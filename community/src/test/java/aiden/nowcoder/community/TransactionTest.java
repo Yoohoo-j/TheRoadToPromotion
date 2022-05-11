@@ -24,8 +24,8 @@ public class TransactionTest {
     @Autowired
     private AlphaService alphaService;
 
-    @Test
-    public void testTransaction(){
-        alphaService.transactionDemo();
-    }
+//    @Test
+//    public void testTransaction(){
+//        alphaService.transactionDemo();
+//    }
 }

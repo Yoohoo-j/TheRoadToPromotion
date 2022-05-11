@@ -1,9 +1,13 @@
 package aiden.nowcoder.community.controller;
 
+import aiden.nowcoder.community.entity.Comment;
 import aiden.nowcoder.community.entity.DiscussPost;
+import aiden.nowcoder.community.entity.Page;
 import aiden.nowcoder.community.entity.User;
+import aiden.nowcoder.community.service.CommentService;
 import aiden.nowcoder.community.service.DiscussPostService;
 import aiden.nowcoder.community.service.UserService;
+import aiden.nowcoder.community.util.CommunityConstant;
 import aiden.nowcoder.community.util.CommunityUtil;
 import aiden.nowcoder.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: TheRoadToPromotion
@@ -21,7 +26,7 @@ import java.util.Date;
  **/
 @Controller
 @RequestMapping("/discuss")
-public class DIscussPostController {
+public class DIscussPostController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
@@ -31,6 +36,9 @@ public class DIscussPostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
 
     @PostMapping("/add")
     @ResponseBody
@@ -51,14 +59,18 @@ public class DIscussPostController {
     }
 
     @GetMapping(path = "/detail/{discussPostId}")
-    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model){
+    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page){
         DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
         model.addAttribute("post", post);
         User user = userService.findUserById(post.getUserId());
         model.addAttribute("user", user);
+        //评论分页信息
+        page.setLimit(5);
+        page.setPath("/discuss/detail/" + discussPostId);
+        page.setRows(post.getCommentCount());
+
+        List<Comment> commentList = commentService.findCommentByEntity(ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
+
         return "/site/discuss-detail";
-
     }
-
-
 }
